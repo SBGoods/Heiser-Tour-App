@@ -1,3 +1,5 @@
+package com.google.ar.sceneform.samples.hellosceneform;
+
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -23,7 +25,6 @@ import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException;
 import com.google.ar.core.exceptions.UnavailableDeviceNotCompatibleException;
 import com.google.ar.core.exceptions.UnavailableSdkTooOldException;
 import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException;
-import com.google.ar.sceneform.rendering.PlaneRenderer;
 import com.google.ar.sceneform.samples.hellosceneform.R;
 
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ux);
         surfaceView = findViewById(R.id.surfaceview);
         displayRotationHelper = new DisplayRotationHelper(/*context=*/ this);
 
@@ -199,7 +200,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
 
             virtualObjectShadow.createOnGlThread(
                     /*context=*/ this, "models/andy_shadow.obj", "models/andy_shadow.png");
-            virtualObjectShadow.setBlendMode(BlendMode.Shadow);
+            virtualObjectShadow.setBlendMode(ObjectRenderer.BlendMode.Shadow);
             virtualObjectShadow.setMaterialProperties(1.0f, 0.0f, 0.0f, 1.0f);
 
         } catch (IOException e) {
