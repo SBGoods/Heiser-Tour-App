@@ -21,6 +21,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
 import com.google.ar.core.TrackingState;
@@ -39,6 +41,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
   private ImageView fitToScanView;
+  private LinearLayout gallery;
 
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
@@ -53,6 +56,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
     fitToScanView = findViewById(R.id.image_view_fit_to_scan);
 
     arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
+    initializeGallery();
   }
 
   @Override
@@ -107,4 +111,29 @@ public class AugmentedImageActivity extends AppCompatActivity {
       }
     }
   }
+
+  private void initializeGallery() {
+    gallery = findViewById(R.id.gallery_layout);
+
+    ImageView Carson = new ImageView(this);
+    Carson.setImageResource(R.drawable.carson1);
+    Carson.setContentDescription("Carson");
+    //lamp.setOnClickListener(view ->{buildObject("LampPost.sfb");});
+    gallery.addView(Carson);
+
+    ImageView Curie = new ImageView(this);
+    Curie.setImageResource(R.drawable.curie1);
+    Curie.setContentDescription("Curie");
+    //couch.setOnClickListener(view ->{buildObject("couch.sfb");});
+    gallery.addView(Curie);
+
+    ImageView Earle = new ImageView(this);
+    Earle.setImageResource(R.drawable.earle1);
+    Earle.setContentDescription("Earle");
+    //chair.setOnClickListener(view ->{buildObject("chair.sfb");});
+    gallery.addView(Earle);
+
+  }
+
+
 }

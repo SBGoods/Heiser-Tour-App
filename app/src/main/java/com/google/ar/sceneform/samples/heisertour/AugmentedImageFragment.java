@@ -46,13 +46,6 @@ public class AugmentedImageFragment extends ArFragment {
   // directory.  Opening this image on your computer is a good quick way to test the augmented image
   // matching.
 
-  // This is a pre-created database containing the sample image.
-  private static final String SAMPLE_IMAGE_DATABASE = "sample_database.imgdb";
-
-  // Augmented image configuration and rendering.
-  // Load a single image (true) or a pre-generated image database (false).
-  private static final boolean USE_SINGLE_IMAGE = true;
-
   // Do a runtime check for the OpenGL level available at runtime to avoid Sceneform crashing the
   // application.
   private static final double MIN_OPENGL_VERSION = 3.0;
@@ -104,7 +97,6 @@ public class AugmentedImageFragment extends ArFragment {
 
   private boolean setupAugmentedImageDatabase(Config config, Session session) {
     AugmentedImageDatabase augmentedImageDatabase;
-    Bitmap augmentedImageBitmap;
 
     AssetManager assetManager = getContext() != null ? getContext().getAssets() : null;
     if (assetManager == null) {
@@ -112,55 +104,14 @@ public class AugmentedImageFragment extends ArFragment {
       return false;
     }
 
-    // There are two ways to configure an AugmentedImageDatabase:
-    // 1. Add Bitmap to DB directly
-    // 2. Load a pre-built AugmentedImageDatabase
-    // Option 2) has
-    // * shorter setup time
-    // * doesn't require images to be packaged in apk.
-    if (USE_SINGLE_IMAGE) {
-
-//        switch (DEFAULT_IMAGE_NAME){
-//
-//            case "boba.jpg":
-//            augmentedImageBitmap = loadAugmentedImageBitmap(assetManager, DEFAULT_IMAGE_NAME);
-//            break;
-//
-//            case "donut.png":
-//            augmentedImageBitmap = loadAugmentedImageBitmap(assetManager, DEFAULT_IMAGE_NAME);
-//            break;
-//
-//            default:
-//                augmentedImageBitmap = null;
-//
-//
-//            if (augmentedImageBitmap == null) {
-//                return false;
-//            }
-//
-//      }
-
 
       augmentedImageDatabase = new AugmentedImageDatabase(session);
-      //augmentedImageDatabase.addImage(DEFAULT_IMAGE_NAME, augmentedImageBitmap);
+
       augmentedImageDatabase.addImage("Carson.jpg", loadAugmentedImageBitmap(assetManager, "Carson.jpg"));
       augmentedImageDatabase.addImage("Curie.jpg", loadAugmentedImageBitmap(assetManager, "Curie.jpg"));
       augmentedImageDatabase.addImage("Earle.jpg", loadAugmentedImageBitmap(assetManager, "Earle.jpg"));
 
-      // If the physical size of the image is known, you can instead use:
-      //     augmentedImageDatabase.addImage("image_name", augmentedImageBitmap, widthInMeters);
-      // This will improve the initial detection speed. ARCore will still actively estimate the
-      // physical size of the image as it is viewed from multiple viewpoints.
-    } else {
-      // This is an alternative way to initialize an AugmentedImageDatabase instance,
-      // load a pre-existing augmented image database.
-      try (InputStream is = getContext().getAssets().open(SAMPLE_IMAGE_DATABASE)) {
-        augmentedImageDatabase = AugmentedImageDatabase.deserialize(session, is);
-      } catch (IOException e) {
-        Log.e(TAG, "IO exception loading augmented image database.", e);
-        return false;
-      }
-    }
+
 
     config.setAugmentedImageDatabase(augmentedImageDatabase);
     return true;
@@ -174,4 +125,5 @@ public class AugmentedImageFragment extends ArFragment {
     }
     return null;
   }
+
 }
