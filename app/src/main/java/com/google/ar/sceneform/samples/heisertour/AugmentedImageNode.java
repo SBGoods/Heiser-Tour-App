@@ -48,7 +48,7 @@ public class AugmentedImageNode extends AnchorNode {
           case "Carson.jpg":
             customModel =
                     ModelRenderable.builder()
-                            .setSource(context, Uri.parse(""))
+                            .setSource(context, Uri.parse("Dolphin.sfb"))
                             .build();
             break;
 
@@ -56,7 +56,7 @@ public class AugmentedImageNode extends AnchorNode {
           case "Earle.jpg":
             customModel =
                     ModelRenderable.builder()
-                            .setSource(context, Uri.parse(""))
+                            .setSource(context, Uri.parse("Octopus.sfb"))
                             .build();
 
             break;
@@ -65,7 +65,7 @@ public class AugmentedImageNode extends AnchorNode {
           case "Curie.jpg":
                 customModel =
                         ModelRenderable.builder()
-                                .setSource(context, Uri.parse(""))
+                                .setSource(context, Uri.parse("element.sfb"))
                                 .build();
 
                 break;

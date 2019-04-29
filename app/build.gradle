@@ -55,3 +55,19 @@ dependencies {
 }
 
 apply plugin: 'com.google.ar.sceneform.plugin'
+
+
+sceneform.asset('sampledata/models/octopus/Octopus.obj',
+        'default',
+        'sampledata/models/octopus/Octopus.sfa',
+        'src/main/assets/Octopus')
+
+sceneform.asset('sampledata/models/element/element.obj',
+        'default',
+        'sampledata/models/element/element.sfa',
+        'src/main/assets/element')
+
+sceneform.asset('sampledata/models/dolphin/Dolphin.obj',
+        'default',
+        'sampledata/models/dolphin/Dolphin.sfa',
+        'src/main/assets/Dolphin')

@@ -16,10 +16,12 @@
 
 package com.google.ar.sceneform.samples.heisertour;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -42,6 +44,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
   private ArFragment arFragment;
   private ImageView fitToScanView;
   private LinearLayout gallery;
+  private Button mButton;
 
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
@@ -56,7 +59,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
     fitToScanView = findViewById(R.id.image_view_fit_to_scan);
 
     arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
-    initializeGallery();
+    mButton = findViewById(R.id.Button);
+    //initializeGallery();
   }
 
   @Override
@@ -87,33 +91,48 @@ public class AugmentedImageActivity extends AppCompatActivity {
         case PAUSED:
           // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
           // but not yet tracked.
-          String text = "Detected Image " + augmentedImage.getIndex();
+          String text = "Paused Detected Image " + augmentedImage.getIndex();
           SnackbarHelper.getInstance().showMessage(this, text);
           break;
 
         case TRACKING:
           // Have to switch to UI Thread to update View.
           fitToScanView.setVisibility(View.GONE);
+          SnackbarHelper.getInstance().showMessage(this, "Tracking");
 
           // Create a new anchor for newly found images.
           if (!augmentedImageMap.containsKey(augmentedImage)) {
+            SnackbarHelper.getInstance().showMessage(this, "Tracking " + augmentedImage.getName());
             Log.d("debug12", augmentedImage.getName());
+            mButton.setVisibility(View.VISIBLE);
             AugmentedImageNode node = new AugmentedImageNode(this, augmentedImage.getName());
             node.setImage(augmentedImage);
             augmentedImageMap.put(augmentedImage, node);
             arFragment.getArSceneView().getScene().addChild(node);
+            mButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), WebViewActivity.class);
+                intent.putExtra("NAME", augmentedImage.getName());
+                startActivity(intent);
+
+              }
+            });
           }
           break;
 
         case STOPPED:
+          SnackbarHelper.getInstance().showMessage(this, "Stopped");
           augmentedImageMap.remove(augmentedImage);
+          fitToScanView.setVisibility(View.VISIBLE);
+          mButton.setVisibility(View.INVISIBLE);
           break;
       }
     }
   }
 
   private void initializeGallery() {
-    gallery = findViewById(R.id.gallery_layout);
+    //gallery = findViewById(R.id.gallery_layout);
 
     ImageView Carson = new ImageView(this);
     Carson.setImageResource(R.drawable.carson1);

@@ -43,22 +43,30 @@
             android:contentDescription="@string/fit_image_to_scan"
             />
 
+        <Button
+            android:id="@+id/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Learn More!" />
+
     </FrameLayout>
 
 
-    <HorizontalScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/framelayout"
-        android:layout_marginTop="82dp">
 
-        <LinearLayout
-            android:id="@+id/gallery_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
+
+    <!--<HorizontalScrollView-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_below="@id/framelayout"-->
+        <!--android:layout_marginTop="82dp">-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/gallery_layout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal" />-->
+    <!--</HorizontalScrollView>-->
 
 
 </RelativeLayout>
