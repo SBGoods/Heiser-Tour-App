@@ -187,66 +187,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onUpdate() {
+        Frame frame = fragment.getArSceneView().getArFrame();
 
-        if(modelPlace) {
-            boolean trackingChanged = updateTracking();
-            View contentView = findViewById(android.R.id.content);
-            if (trackingChanged) {
-                if (isTracking) {
-                    contentView.getOverlay().add(pointer);
-                } else {
-                    contentView.getOverlay().remove(pointer);
-                }
-                contentView.invalidate();
-            }
+        // If there is no frame or ARCore is not tracking yet, just return.
+        if (frame == null || frame.getCamera().getTrackingState() != TrackingState.TRACKING) {
+            return;
+        }
 
-            if (isTracking) {
-                boolean hitTestChanged = updateHitTest();
-                if (hitTestChanged) {
-                    pointer.setEnabled(isHitting);
-                    contentView.invalidate();
-                }
+        Collection<AugmentedImage> updatedAugmentedImages =
+                frame.getUpdatedTrackables(AugmentedImage.class);
+        for (AugmentedImage augmentedImage : updatedAugmentedImages) {
+            switch (augmentedImage.getTrackingState()) {
+                case PAUSED:
+                    // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
+                    // but not yet tracked.
+                    String text = "Detected Image " + augmentedImage.getName();
+                    SnackbarHelper.getInstance().showMessage(this, text);
+                    break;
+
+                case TRACKING:
+
+                    // Have to switch to UI Thread to update View.
+                    //fitToScanView.setVisibility(View.GONE);
+
+                    // Create a new anchor for newly found images.
+                    if (!augmentedImageMap.containsKey(augmentedImage)) {
+                        AugmentedImageNode node = new AugmentedImageNode(this, augmentedImage.getName());
+                        node.setImage(augmentedImage);
+                        augmentedImageMap.put(augmentedImage, node);
+                        fragment.getArSceneView().getScene().addChild(node);
+                    }
+                    break;
+
+                case STOPPED:
+                    augmentedImageMap.remove(augmentedImage);
+                    break;
             }
         }
-        else{
-            Frame frame = fragment.getArSceneView().getArFrame();
 
-            // If there is no frame or ARCore is not tracking yet, just return.
-            if (frame == null || frame.getCamera().getTrackingState() != TrackingState.TRACKING) {
-                return;
-            }
-
-            Collection<AugmentedImage> updatedAugmentedImages =
-                    frame.getUpdatedTrackables(AugmentedImage.class);
-            for (AugmentedImage augmentedImage : updatedAugmentedImages) {
-                switch (augmentedImage.getTrackingState()) {
-                    case PAUSED:
-                        // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
-                        // but not yet tracked.
-                        String text = "Detected Image " + augmentedImage.getName();
-                        SnackbarHelper.getInstance().showMessage(this, text);
-                        break;
-
-                    case TRACKING:
-
-                        // Have to switch to UI Thread to update View.
-                        //fitToScanView.setVisibility(View.GONE);
-
-                        // Create a new anchor for newly found images.
-                        if (!augmentedImageMap.containsKey(augmentedImage)) {
-                            AugmentedImageNode node = new AugmentedImageNode(this, augmentedImage.getName());
-                            node.setImage(augmentedImage);
-                            augmentedImageMap.put(augmentedImage, node);
-                            fragment.getArSceneView().getScene().addChild(node);
-                        }
-                        break;
-
-                    case STOPPED:
-                        augmentedImageMap.remove(augmentedImage);
-                        break;
-                }
-            }
-        }
     }
 
 
