@@ -18,11 +18,6 @@
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="9" />
 
-    <fragment android:name="com.google.devrel.ar.codelab.AugmentedImageFragment"
-        android:id="@+id/ux_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <LinearLayout
         android:id="@+id/gallery_layout"
         android:layout_width="match_parent"

@@ -72,7 +72,8 @@ import java.util.concurrent.CompletableFuture;
 public class MainActivity extends AppCompatActivity {
 
     private ArFragment fragment;
-    private ArFragment img_fragment;
+
+    private boolean modelPlace;
 
     //implement later
     private ImageView fitToScanView;
@@ -111,51 +112,9 @@ public class MainActivity extends AppCompatActivity {
             onUpdate();
         });
 
-        //create image detection fragment
-        img_fragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
-        img_fragment.getArSceneView().getScene().setOnUpdateListener(this::onUpdateFrame);
-
         initializeGallery();
     }
 
-    private void onUpdateFrame(FrameTime frameTime) {
-        Frame frame = img_fragment.getArSceneView().getArFrame();
-
-        // If there is no frame or ARCore is not tracking yet, just return.
-        if (frame == null || frame.getCamera().getTrackingState() != TrackingState.TRACKING) {
-            return;
-        }
-
-        Collection<AugmentedImage> updatedAugmentedImages =
-                frame.getUpdatedTrackables(AugmentedImage.class);
-        for (AugmentedImage augmentedImage : updatedAugmentedImages) {
-            switch (augmentedImage.getTrackingState()) {
-                case PAUSED:
-                    // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
-                    // but not yet tracked.
-                    String text = "Detected Image " + augmentedImage.getName();
-                    SnackbarHelper.getInstance().showMessage(this, text);
-                    break;
-
-                case TRACKING:
-                    // Have to switch to UI Thread to update View.
-                    fitToScanView.setVisibility(View.GONE);
-
-                    // Create a new anchor for newly found images.
-                    if (!augmentedImageMap.containsKey(augmentedImage)) {
-                        com.google.ar.sceneform.samples.augmentedimage.AugmentedImageNode node = new com.google.ar.sceneform.samples.augmentedimage.AugmentedImageNode(this, augmentedImage.getName());
-                        node.setImage(augmentedImage);
-                        augmentedImageMap.put(augmentedImage, node);
-                        img_fragment.getArSceneView().getScene().addChild(node);
-                    }
-                    break;
-
-                case STOPPED:
-                    augmentedImageMap.remove(augmentedImage);
-                    break;
-            }
-        }
-    }
 
     private String generateFilename() {
         String date =
@@ -228,25 +187,68 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onUpdate() {
-        boolean trackingChanged = updateTracking();
-        View contentView = findViewById(android.R.id.content);
-        if (trackingChanged) {
-            if (isTracking) {
-                contentView.getOverlay().add(pointer);
-            } else {
-                contentView.getOverlay().remove(pointer);
-            }
-            contentView.invalidate();
-        }
 
-        if (isTracking) {
-            boolean hitTestChanged = updateHitTest();
-            if (hitTestChanged) {
-                pointer.setEnabled(isHitting);
+        if(modelPlace) {
+            boolean trackingChanged = updateTracking();
+            View contentView = findViewById(android.R.id.content);
+            if (trackingChanged) {
+                if (isTracking) {
+                    contentView.getOverlay().add(pointer);
+                } else {
+                    contentView.getOverlay().remove(pointer);
+                }
                 contentView.invalidate();
+            }
+
+            if (isTracking) {
+                boolean hitTestChanged = updateHitTest();
+                if (hitTestChanged) {
+                    pointer.setEnabled(isHitting);
+                    contentView.invalidate();
+                }
+            }
+        }
+        else{
+            Frame frame = fragment.getArSceneView().getArFrame();
+
+            // If there is no frame or ARCore is not tracking yet, just return.
+            if (frame == null || frame.getCamera().getTrackingState() != TrackingState.TRACKING) {
+                return;
+            }
+
+            Collection<AugmentedImage> updatedAugmentedImages =
+                    frame.getUpdatedTrackables(AugmentedImage.class);
+            for (AugmentedImage augmentedImage : updatedAugmentedImages) {
+                switch (augmentedImage.getTrackingState()) {
+                    case PAUSED:
+                        // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
+                        // but not yet tracked.
+                        String text = "Detected Image " + augmentedImage.getName();
+                        SnackbarHelper.getInstance().showMessage(this, text);
+                        break;
+
+                    case TRACKING:
+                        // Have to switch to UI Thread to update View.
+                        fitToScanView.setVisibility(View.GONE);
+
+                        // Create a new anchor for newly found images.
+                        if (!augmentedImageMap.containsKey(augmentedImage)) {
+                            com.google.ar.sceneform.samples.augmentedimage.AugmentedImageNode node = new com.google.ar.sceneform.samples.augmentedimage.AugmentedImageNode(this, augmentedImage.getName());
+                            node.setImage(augmentedImage);
+                            augmentedImageMap.put(augmentedImage, node);
+                            fragment.getArSceneView().getScene().addChild(node);
+                        }
+                        break;
+
+                    case STOPPED:
+                        augmentedImageMap.remove(augmentedImage);
+                        break;
+                }
             }
         }
     }
+
+
     private boolean updateTracking() {
         Frame frame = fragment.getArSceneView().getArFrame();
         boolean wasTracking = isTracking;
