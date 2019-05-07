@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.ar.sceneform.samples.augmentedimage;
+package com.google.devrel.ar.codelab;
 
 import android.content.Context;
 import android.net.Uri;
@@ -59,7 +59,7 @@ public class AugmentedImageNode extends AnchorNode {
     if (ulCorner == null) {
       ulCorner =
           ModelRenderable.builder()
-              .setSource(context, Uri.parse("models/" + imgName +".sfb"))
+              .setSource(context, Uri.parse(imgName +".sfb"))
               .build();
       /*
       urCorner =

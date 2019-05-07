@@ -73,14 +73,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ArFragment fragment;
 
-    private boolean modelPlace;
+    private boolean modelPlace = false;
 
     //implement later
     private ImageView fitToScanView;
 
     // Augmented image and its associated center pose anchor, keyed by the augmented image in
     // the database.
-    private final Map<AugmentedImage, com.google.ar.sceneform.samples.augmentedimage.AugmentedImageNode> augmentedImageMap = new HashMap<>();
+    private final Map<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
 
     private PointerDrawable pointer = new PointerDrawable();
     private boolean isTracking;
@@ -228,12 +228,13 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case TRACKING:
+
                         // Have to switch to UI Thread to update View.
-                        fitToScanView.setVisibility(View.GONE);
+                        //fitToScanView.setVisibility(View.GONE);
 
                         // Create a new anchor for newly found images.
                         if (!augmentedImageMap.containsKey(augmentedImage)) {
-                            com.google.ar.sceneform.samples.augmentedimage.AugmentedImageNode node = new com.google.ar.sceneform.samples.augmentedimage.AugmentedImageNode(this, augmentedImage.getName());
+                            AugmentedImageNode node = new AugmentedImageNode(this, augmentedImage.getName());
                             node.setImage(augmentedImage);
                             augmentedImageMap.put(augmentedImage, node);
                             fragment.getArSceneView().getScene().addChild(node);
