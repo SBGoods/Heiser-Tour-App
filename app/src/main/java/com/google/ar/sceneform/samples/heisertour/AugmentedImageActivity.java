@@ -18,6 +18,8 @@ package com.google.ar.sceneform.samples.heisertour;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
   private ImageView fitToScanView;
   private LinearLayout gallery;
   private Button mButton;
+  private ActionBar mActionBar;
+  private BottomNavigationView mBottomNavigationView;
 
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
@@ -60,6 +64,9 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
     arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
     mButton = findViewById(R.id.Button);
+
+    mBottomNavigationView = findViewById(R.id.navigationView);
+
     //initializeGallery();
   }
 

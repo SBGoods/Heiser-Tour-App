@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/carson"
+        android:icon="@drawable/carson1"
+        android:title="Carson"/>
+
+    <item
+        android:id="@+id/curie"
+        android:icon="@drawable/curie1"
+        android:title="Curie"/>
+
+    <item
+        android:id="@+id/earle"
+        android:icon="@drawable/earle1"
+        android:title="Earle"/>
+
+</menu>
