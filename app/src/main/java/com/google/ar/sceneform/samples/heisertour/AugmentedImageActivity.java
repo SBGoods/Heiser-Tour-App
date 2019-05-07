@@ -18,14 +18,17 @@ package com.google.ar.sceneform.samples.heisertour;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
@@ -49,6 +52,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
   private Button mButton;
   private ActionBar mActionBar;
   private BottomNavigationView mBottomNavigationView;
+  private String model = "Dolphin.sfb";
 
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
@@ -66,6 +70,24 @@ public class AugmentedImageActivity extends AppCompatActivity {
     mButton = findViewById(R.id.Button);
 
     mBottomNavigationView = findViewById(R.id.navigationView);
+    mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        switch (menuItem.getItemId()) {
+          case R.id.dolphin:
+            model = "Dolphin.sfb";
+            break;
+          case R.id.octopus:
+            model = "Octopus.sfb";
+            break;
+          case R.id.element:
+            model = "element.sfb";
+            break;
+        }
+        return true;
+      }
+    });
 
     //initializeGallery();
   }
@@ -109,10 +131,10 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
           // Create a new anchor for newly found images.
           if (!augmentedImageMap.containsKey(augmentedImage)) {
-            SnackbarHelper.getInstance().showMessage(this, "Tracking " + augmentedImage.getName());
+            //SnackbarHelper.getInstance().showMessage(this, "Tracking " + augmentedImage.getName());
             Log.d("debug12", augmentedImage.getName());
             mButton.setVisibility(View.VISIBLE);
-            AugmentedImageNode node = new AugmentedImageNode(this, augmentedImage.getName());
+            AugmentedImageNode node = new AugmentedImageNode(this, model);
             node.setImage(augmentedImage);
             augmentedImageMap.put(augmentedImage, node);
             arFragment.getArSceneView().getScene().addChild(node);

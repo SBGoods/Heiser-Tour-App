@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/carson"
+        android:id="@+id/dolphin"
         android:icon="@drawable/carson1"
-        android:title="Carson"/>
+        android:title="Dolphin"/>
 
     <item
-        android:id="@+id/curie"
+        android:id="@+id/element"
         android:icon="@drawable/curie1"
-        android:title="Curie"/>
+        android:title="Element"/>
 
     <item
-        android:id="@+id/earle"
+        android:id="@+id/octopus"
         android:icon="@drawable/earle1"
-        android:title="Earle"/>
+        android:title="Octopus"/>
 
 </menu>
