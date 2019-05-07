@@ -67,6 +67,7 @@ import java.util.concurrent.CompletableFuture;
 public class MainActivity extends AppCompatActivity {
 
     private ArFragment fragment;
+    private ArFragment img_fragment;
     private PointerDrawable pointer = new PointerDrawable();
     private boolean isTracking;
     private boolean isHitting;
@@ -75,9 +76,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //create toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //create FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,12 +89,17 @@ public class MainActivity extends AppCompatActivity {
                 takePhoto();
             }
         });
+
+        //create fragment
         fragment = (ArFragment)
                 getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
         fragment.getArSceneView().getScene().setOnUpdateListener(frameTime -> {
             fragment.onUpdate(frameTime);
             onUpdate();
         });
+
+        //create image detection fragment
+        //img_fragment =
 
         initializeGallery();
     }
