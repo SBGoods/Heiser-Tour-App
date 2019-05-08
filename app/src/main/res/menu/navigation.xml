@@ -8,7 +8,8 @@
     <item
         android:id="@+id/element"
         android:icon="@drawable/curie1"
-        android:title="Element"/>
+        android:title="Element"
+        />
 
     <item
         android:id="@+id/octopus"

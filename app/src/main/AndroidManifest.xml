@@ -19,6 +19,7 @@
     package="com.google.ar.sceneform.samples.heisertour">
 
   <uses-permission android:name="android.permission.CAMERA"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.INTERNET"/>
   <!-- This tag indicates that this application requires ARCore.  This results in the application
        only being visible in the Google Play Store on devices that support ARCore. -->
@@ -50,5 +51,15 @@
     <!-- This tag indicates that this application requires ARCore.  This results in the Google Play
          Store downloading and installing ARCore along with the application. -->
     <meta-data android:name="com.google.ar.core" android:value="required" />
+
+    <provider
+        android:name="android.support.v4.content.FileProvider"
+        android:authorities="${applicationId}.ar.codelab.name.provider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+      <meta-data
+          android:name="android.support.FILE_PROVIDER_PATHS"
+          android:resource="@xml/paths"/>
+    </provider>
   </application>
 </manifest>
