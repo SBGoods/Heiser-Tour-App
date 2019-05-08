@@ -98,18 +98,18 @@ public class AugmentedImageActivity extends AppCompatActivity {
         case PAUSED:
           // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
           // but not yet tracked.
-          String text = "Paused Detected Image " + augmentedImage.getIndex();
-          SnackbarHelper.getInstance().showMessage(this, text);
+          //String text = "Paused Detected Image " + augmentedImage.getIndex();
+          //SnackbarHelper.getInstance().showMessage(this, text);
           break;
 
         case TRACKING:
           // Have to switch to UI Thread to update View.
           fitToScanView.setVisibility(View.GONE);
-          SnackbarHelper.getInstance().showMessage(this, "Tracking");
+          //SnackbarHelper.getInstance().showMessage(this, "Tracking");
 
           // Create a new anchor for newly found images.
           if (!augmentedImageMap.containsKey(augmentedImage)) {
-            SnackbarHelper.getInstance().showMessage(this, "Tracking " + augmentedImage.getName());
+            //SnackbarHelper.getInstance().showMessage(this, "Tracking " + augmentedImage.getName());
             Log.d("debug12", augmentedImage.getName());
             mButton.setVisibility(View.VISIBLE);
             AugmentedImageNode node = new AugmentedImageNode(this, augmentedImage.getName());
@@ -129,7 +129,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
           break;
 
         case STOPPED:
-          SnackbarHelper.getInstance().showMessage(this, "Stopped");
+          //SnackbarHelper.getInstance().showMessage(this, "Stopped");
           augmentedImageMap.remove(augmentedImage);
           fitToScanView.setVisibility(View.VISIBLE);
           mButton.setVisibility(View.INVISIBLE);

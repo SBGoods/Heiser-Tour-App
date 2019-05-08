@@ -41,7 +41,7 @@
   },
   samplers: [
     {
-      file: 'sampledata/models/octopus\\Octopus_BaseColor.png',
+      file: 'sampledata/models/octopus/Octopus_BaseColor.png',
       name: 'Octopus_BaseColor',
       pipeline_name: 'Octopus_BaseColor.png',
     },

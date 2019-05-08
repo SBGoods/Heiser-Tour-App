@@ -41,7 +41,7 @@
   },
   samplers: [
     {
-      file: 'sampledata/models/dolphin\\Dolphin_BaseColor.png',
+      file: 'sampledata/models/dolphin/Dolphin_BaseColor.png',
       name: 'Dolphin_BaseColor',
       pipeline_name: 'Dolphin_BaseColor.png',
     },
