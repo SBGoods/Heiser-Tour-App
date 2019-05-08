@@ -16,6 +16,7 @@
 
 package com.google.ar.sceneform.samples.heisertour;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -23,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,8 +35,14 @@ import com.google.ar.core.Config;
 import com.google.ar.core.Session;
 import com.google.ar.sceneform.samples.common.helpers.SnackbarHelper;
 import com.google.ar.sceneform.ux.ArFragment;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Extend the ArFragment to customize the ARCore session configuration to include Augmented Images.
@@ -74,6 +82,26 @@ public class AugmentedImageFragment extends ArFragment {
   }
 
   @Override
+  public String[] getAdditionalPermissions() {
+    String[] additionalPermissions = super.getAdditionalPermissions();
+    int permissionLength = additionalPermissions != null ? additionalPermissions.length : 0;
+    String[] permissions = new String[permissionLength + 1];
+    permissions[0] = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    if (permissionLength > 0) {
+      System.arraycopy(additionalPermissions, 0, permissions, 1, additionalPermissions.length);
+    }
+    return permissions;
+  }
+
+  private String generateFilename() {
+    String date =
+            new SimpleDateFormat("yyyyMMddHHmmss", java.util.Locale.getDefault()).format(new Date());
+    return Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES) + File.separator + "Sceneform/" + date + "_screenshot.jpg";
+  }
+
+
+  @Override
   public View onCreateView(
       LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = super.onCreateView(inflater, container, savedInstanceState);
@@ -107,9 +135,11 @@ public class AugmentedImageFragment extends ArFragment {
 
       augmentedImageDatabase = new AugmentedImageDatabase(session);
 
-      augmentedImageDatabase.addImage("Carson.jpg", loadAugmentedImageBitmap(assetManager, "Carson.jpg"));
+      augmentedImageDatabase.addImage("carson3.JPG", loadAugmentedImageBitmap(assetManager, "carson3.JPG"));
       augmentedImageDatabase.addImage("Curie.jpg", loadAugmentedImageBitmap(assetManager, "Curie.jpg"));
       augmentedImageDatabase.addImage("Earle.jpg", loadAugmentedImageBitmap(assetManager, "Earle.jpg"));
+      augmentedImageDatabase.addImage("hopper.JPG", loadAugmentedImageBitmap(assetManager, "hopper.JPG"));
+      augmentedImageDatabase.addImage("tao.JPG", loadAugmentedImageBitmap(assetManager, "tao.JPG"));
 
 
 

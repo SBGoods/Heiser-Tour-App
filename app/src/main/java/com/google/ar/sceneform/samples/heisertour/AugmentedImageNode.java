@@ -44,36 +44,11 @@ public class AugmentedImageNode extends AnchorNode {
 
   public AugmentedImageNode(Context context, String imagename) {
 
-        switch (imagename){
-          case "Carson.jpg":
-            customModel =
-                    ModelRenderable.builder()
-                            .setSource(context, Uri.parse("Dolphin.sfb"))
-                            .build();
-            break;
 
-
-          case "Earle.jpg":
-            customModel =
-                    ModelRenderable.builder()
-                            .setSource(context, Uri.parse("Octopus.sfb"))
-                            .build();
-
-            break;
-
-
-          case "Curie.jpg":
-                customModel =
-                        ModelRenderable.builder()
-                                .setSource(context, Uri.parse("element.sfb"))
-                                .build();
-
-                break;
-
-
-
-
-      }
+      customModel =
+              ModelRenderable.builder()
+                      .setSource(context, Uri.parse(imagename))
+                      .build();
 
   }
 

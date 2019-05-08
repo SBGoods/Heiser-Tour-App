@@ -21,7 +21,7 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView = findViewById(R.id.webview);
 
         switch (sName){
-            case "Carson.jpg":
+            case "carson3.JPG":
                 mWebView.loadUrl("https://youtu.be/SeJNRaE11A0");
                 break;
 
@@ -32,6 +32,15 @@ public class WebViewActivity extends AppCompatActivity {
             case "Earle.jpg":
                 mWebView.loadUrl("https://youtu.be/VecmIbBjyIo");
                 break;
+
+            case "tao.JPG":
+                mWebView.loadUrl("https://youtu.be/MXJ-zpJeY3E");
+                break;
+
+            case "hopper.JPG":
+                mWebView.loadUrl("https://youtu.be/meeCAFacrG0");
+                break;
+
         }
 
 
